@@ -1,102 +1,61 @@
-# 📊 Projeto de Gestão Comercial com Python + MySQL
+#!/bin/bash
 
-Este projeto demonstra um sistema simples de cadastro e gestão de clientes, produtos e vendas utilizando Python e MySQL, com visualização dos dados em um dashboard interativo feito com Streamlit.
+echo "=================================================="
+echo "🚀 Iniciando Setup do Projeto de Gestão Comercial!"
+echo "=================================================="
 
-## 🚀 Funcionalidades
-
-- **Cadastro de Clientes, Produtos e Vendas**
-- **Dashboard Financeiro** com KPIs (total vendido, clientes únicos, produtos vendidos)
-- **Relatórios visuais**: vendas por data, ranking de produtos mais vendidos
-- **Conexão segura** ao banco de dados MySQL com `mysql-connector-python`
-
----
-
-## ⚙️ Tecnologias Utilizadas
-
-- **Python 3.12+**
-- **MySQL**
-- **Streamlit**
-- **Pandas**
-- **Plotly Express**
-
----
-
-## 🛠️ Instalação e Execução
-
-### 1. Clone o repositório
-
-```bash
+# 1. Clone o repositório
+echo "📦 Clonando repositório do GitHub..."
 git clone https://github.com/seuusuario/projeto_gestao.git
-cd projeto_gestao
+cd projeto_gestao || exit
 
----
+echo "✅ Repositório clonado."
 
- ### 2. Instale as dependências
+# 2. Crie e ative o ambiente virtual
+echo "🐍 Criando ambiente virtual Python..."
+python -m venv .venv
 
- python -m venv .venv
-# Ative o ambiente:
-# Windows
-.venv\Scripts\activate
-# Linux/Mac
-source .venv/bin/activate
+echo "👉 Ative o ambiente virtual:"
+echo "   Windows: .venv\\Scripts\\activate"
+echo "   Linux/Mac: source .venv/bin/activate"
+echo "⚠️  ATIVE o ambiente e pressione [ENTER] para continuar."
+read -r
 
+# 3. Instale as dependências
+echo "📚 Instalando dependências..."
 pip install -r requirements.txt
 
-    O arquivo requirements.txt deve conter:
-        mysql-connector-python
-        streamlit
-        pandas
-        plotly
+# 4. Crie o banco de dados MySQL
+echo "💾 Criando banco de dados MySQL (ajuste usuário/senha se necessário)..."
+echo "Digite seu usuário MySQL (ex: root):"
+read USUARIO
+echo "Digite sua senha MySQL (vai aparecer em branco, digite e pressione ENTER):"
+read -s SENHA
 
----
+mysql -u"$USUARIO" -p"$SENHA" -e "CREATE DATABASE IF NOT EXISTS gestao_vendas;"
 
- ### 3. Configure o banco de dados MySQL
-    # Crie um banco de dados, por exemplo:
-        CREATE DATABASE gestao_vendas;
+echo "✅ Banco de dados criado (gestao_vendas)."
 
-    # Edite o arquivo db.py com suas credenciais de conexão (usuário, senha, host, database).
-    # Rode o script para criar as tabelas:
-        python scripts/criar_tabelas.py
+# 5. Configure suas credenciais no arquivo db.py
+echo "✏️  Lembre-se de editar o arquivo 'db.py' e inserir suas credenciais de conexão MySQL!"
+echo "Pressione [ENTER] quando já tiver editado."
+read -r
 
----
+# 6. Crie as tabelas no banco
+echo "🔨 Criando tabelas no banco de dados..."
+python scripts/criar_tabelas.py
 
- ### 4. (Opcional) Popule o banco com dados de exemplo
-    # Você pode criar um script seed.py para inserir dados de teste.
+# 7. (Opcional) Popule com dados de exemplo
+echo "Deseja popular o banco com dados de exemplo? [s/n]"
+read POPULAR
+if [ "$POPULAR" = "s" ]; then
+  python scripts/seed.py
+fi
 
----
-
- ### 5. Execute o dashboard
-
+# 8. Execute o dashboard
+echo "🎯 Iniciando dashboard financeiro no navegador..."
 streamlit run dashboard.py
 
----
-
-📈 Telas e Gráficos
-#KPIs de Vendas: Total vendido, clientes únicos, produtos vendidos.
-
-#Vendas por Data: Gráfico de barras mostrando evolução das vendas.
-
-#Ranking de Produtos: Quais produtos mais venderam no período.
-
----
-📂 Estrutura do Projeto
-
-projeto_gestao/
-├── db.py                  # Função de conexão com o MySQL
-├── dashboard.py           # Dashboard interativo Streamlit
-├── requirements.txt       # Dependências Python
-├── scripts/
-│   └── criar_tabelas.py   # Criação das tabelas no banco
-└── README.md
-
----
-📝 Observações
-Para produção, proteja suas credenciais de banco (não deixe hardcoded em db.py).
-
-O projeto pode ser facilmente expandido para adicionar novas funcionalidades: cadastro pelo dashboard, relatórios por período, exportação para Excel, etc.
-
-Feito com 💙 por danielambrosim
----
-
-Se quiser, posso customizar com prints, badges, ou exemplos de uso/código!  
-Se for público, troque o link do `git clone` pelo seu repositório no GitHub.
+echo "=========================================="
+echo "🎉 Projeto rodando! Bom proveito!"
+echo "=========================================="
